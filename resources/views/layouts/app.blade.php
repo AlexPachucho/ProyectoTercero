@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="container-fluid d-flex align-items-center justify-content-between py-1">
-        <div class="navbar-header d-flex align-items-center"><a class="navbar-brand text-uppercase text-reset" href="{{route ('dashboard')}}">
+        <div class="navbar-header d-flex align-items-center"><a class="navbar-brand text-uppercase text-reset" href="{{route('dashboard')}}">
             <div class="brand-text brand-big"><strong class="text-primary">React</strong><strong>Native</strong></div>
             <div class="brand-text brand-sm"><strong class="text-primary">R</strong><strong>N</strong></div>
           </a>
@@ -76,14 +76,14 @@
           <li class="list-inline-item dropdown "><a class="nav-link text-sm text-reset px-1 px-lg-0" id="name_user" rel="nofollow" data-bs-target="#" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="d-none d-sm-inline-block ms-2">{{ Auth::user()->usu_nombres}} / {{ Auth::user()->name}}</span></a>
             <ul class="dropdown-menu dropdown-menu-end mt-sm-3 dropdown-menu-dark" aria-labelledby="languages">
               <!-- Cerrar Sesion -->
-              <li class="list-inline-item logout px-lg-2"> <a class="nav-link text-sm text-reset px-1 px-lg-0" id="logout" href="{{ route('logout') }}"> <span class="d-none d-sm-inline-block" onclick="event.preventDefault();cerrarSession.submit()">Cerrar Sesion <i class="bi bi-box-arrow-in-right"></i></span>
-                  <svg class="svg-icon svg-icon-xs svg-icon-heavy">
-                    <use xlink:href="#disable-1"> </use>
-                  </svg></a>
-                <form action="{{ route('logout') }}" id="cerrarSession" method="POST">
-                  @csrf
-                </form>
-              </li>
+                <li class="list-inline-item logout px-lg-2"> <a class="nav-link text-sm text-reset px-1 px-lg-0" id="logout" href="{{ route('logout') }}"> <span class="d-none d-sm-inline-block" onclick="event.preventDefault();cerrarSession.submit()">Cerrar Sesion <i class="bi bi-box-arrow-in-right"></i></span>
+                    <svg class="svg-icon svg-icon-xs svg-icon-heavy">
+                      <use xlink:href="#disable-1"> </use>
+                    </svg></a>
+                  <form action="{{ route('logout') }}" id="cerrarSession" method="POST">
+                    @csrf
+                  </form>
+                </li>
             </ul>
           </li>
         </ul>
@@ -109,6 +109,10 @@
             <svg class="svg-icon svg-icon-sm svg-icon-heavy">
               <use xlink:href="#portfolio-grid-1"> </use>
             </svg><span>Usuarios </span></a></li>
+        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('genera_ordenes.index') }}">
+            <svg class="svg-icon svg-icon-sm svg-icon-heavy">
+              <use xlink:href="#portfolio-grid-1"> </use>
+            </svg><span>GENERAR ORDENES</span></a></li>
         <!--<a class="nav-link active me-2" aria-current="page" href="{{ route('dashboard') }}">Inicio</a>
       <a class="nav-link active me-2" aria-current="page" href="{{ route('cursos.index') }}">Cursos</a>-->
       </ul>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GenerarOrdenesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\UsersController;
@@ -31,6 +32,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('cursos',CursosController::class);
     Route::resource('users',UsersController::class);
+
+    Route::get('/genera_ordenes',[GenerarOrdenesController::class,'index'])->name('genera_ordenes.index');  //
+    Route::post('/generarOrdenes',[GenerarOrdenesController::class,'generarOrdenes'])->name('generaOrdenes');  //
+
+    
 });
 
 require __DIR__ . '/auth.php';
