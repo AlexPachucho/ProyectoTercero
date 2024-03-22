@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Models\GeneraOrdenes;
 
 class GenerarOrdenesController extends Controller
 {
@@ -97,6 +98,34 @@ class GenerarOrdenesController extends Controller
                                  AND m.jor_id=$jor_id
                                  AND m.mat_estado=1"
                                );
-        dd($estudiantes);
+
+
+        foreach ($estudiantes as $e)
+        {
+        $inpu['mat_id'];
+        $inpu['fecha']; 
+        $inpu['mes'];
+        $inpu['codigo']; 
+        $inpu['valor']; 
+        $inpu['fecha_pago'];
+        $inpu['tipo']; 
+        $inpu['estado']; 
+        $inpu['responsable'];
+        $inpu['obs']; 
+        $inpu['identificador'];
+        $inpu['motivo'];
+        $inpu['vpagado'];
+        $inpu['f_acuerdo'];
+        $inpu['ac_no'];
+        $inpu['especial_code']; 
+        $inpu['especial'];
+        $inpu['numero_documento'];
+        }
+
     }
+
+    public function matricula(){
+        return $this->belongsTo(Matricula::class, "mat_id", "id");
+    }
+
 }
