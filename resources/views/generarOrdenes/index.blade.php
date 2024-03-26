@@ -54,9 +54,35 @@
             </div>
         </div>
     </form>
+    
+    <div class="container mt-4">
+    <h4>Ordenes Generadas</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Secuencial</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ordenes as $c)
+                <tr>
+                    <td>{{ $c->especial }}</td>
+                    <td>{{ $c->fecha }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</div>
+
+    
+
+<!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script>
@@ -91,7 +117,7 @@
             $('.form-control').removeClass('is-valid');
         });
     });
-</script>
+</script> -->
 
 <style>
     .btn-animate {

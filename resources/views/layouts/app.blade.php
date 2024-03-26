@@ -112,7 +112,7 @@
         <li class="sidebar-item"><a class="sidebar-link" href="{{ route('genera_ordenes.index') }}">
             <svg class="svg-icon svg-icon-sm svg-icon-heavy">
               <use xlink:href="#portfolio-grid-1"> </use>
-            </svg><span>GENERAR ORDENES</span></a></li>
+            </svg><span>Generar Ordenes</span></a></li>
         <!--<a class="nav-link active me-2" aria-current="page" href="{{ route('dashboard') }}">Inicio</a>
       <a class="nav-link active me-2" aria-current="page" href="{{ route('cursos.index') }}">Cursos</a>-->
       </ul>
