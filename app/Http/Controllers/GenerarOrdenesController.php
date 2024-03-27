@@ -18,7 +18,12 @@ class GenerarOrdenesController extends Controller
         $periodos=DB::select("SELECT * FROM aniolectivo");
         $jornadas=DB::select("SELECT * FROM jornadas");
         $meses=$this->meses();
-        $ordenes=DB::select("SELECT especial,fecha FROM ordenes_generadas GROUP BY especial,fecha");
+        $ordenes=DB::select("SELECT o.especial,o.fecha,j.jor_descripcion,o.mes,a.anl_descripcion
+                             FROM ordenes_generadas o
+                             JOIN matriculas m ON m.id=o.mat_id 
+                             JOIN jornadas j ON j.id=m.jor_id
+                             JOIN aniolectivo a ON a.id=m.anl_id
+                             GROUP BY o.especial,o.fecha,j.jor_descripcion,o.mes,a.anl_descripcion");
         return view('generarOrdenes.index')
         -> with ('periodos',$periodos)
         -> with('meses',$meses)
@@ -127,6 +132,8 @@ class GenerarOrdenesController extends Controller
         $mes=$datos["mes"]; //MES A GENERAR ORDEN
         $nmes=$this->mesesLetras($mes); //LETRA DEL MES
         $campus="G";
+        $secuenciales=DB::selectone("SELECT max(especial) AS secuencial FROM ordenes_generadas");
+        $sec=$secuenciales->secuencial+1;
         $estudiantes=DB::select("SELECT *, m.id AS mat_id FROM matriculas m 
                                  JOIN estudiantes e ON m.est_id=e.id
                                  JOIN jornadas j ON m.jor_id=j.id
@@ -146,20 +153,15 @@ class GenerarOrdenesController extends Controller
         $inpu['codigo']=$nmes.$campus.$e->jor_obs.$e->cur_obs.$e->esp_obs."-".$e->mat_id; //
         $inpu['valor']=$valor_pagar;// VALOR A PAGAR
         $inpu['fecha_pago']=NULL;// EL BANCO DA LA FECHA DEL PAGO
-        $inpu['tipo']=NULL; 
         $inpu['estado']=0; // PENDIENTE = 0 / PAGADO = 1
-        $inpu['responsable']=Auth::user()->usu_nombres; // USUARIO QUE REALIZA LA ORDEN
-        $inpu['obs']=NULL; 
-        $inpu['identificador']=NULL;
+        $inpu['responsable']=Auth::user()->usu_nombres; // USUARIO QUE REALIZA LA ORDEN 
         $inpu['motivo']=NULL;
         $inpu['vpagado']=0;// EL BANCO DA EL VALOR PAGADO 
-        $inpu['f_acuerdo']=NULL;
-        $inpu['ac_no']=NULL;
-        $inpu['especial_code']=NULL; 
-        $inpu['especial']=1;
+        $inpu['especial']=$sec;
         $inpu['numero_documento']=NULL; // NUMERO DEL DOCUMENTO QUE PAGO EL USUARIO (CUANDO YA PAGUE)
         GeneraOrdenes::create($inpu);
         }
+     return Redirect(route('genera_ordenes.index'));
 
     }
 

@@ -58,19 +58,39 @@
     <div class="container mt-4">
     <h4>Ordenes Generadas</h4>
     <div class="table-responsive">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped table-dark">
             <thead class="thead-dark">
                 <tr>
-                    <th>Secuencial</th>
-                    <th>Fecha</th>
-                    <th>Acciones</th>
+                    <th class="bg-secondary">Secuencial</th>
+                    <th class="bg-secondary">Fecha</th>
+                    <th class="bg-secondary">Jornada</th>
+                    <th class="bg-secondary">Mes</th>
+                    <th class="bg-secondary">Año Lectivo</th>
+                    <th class="bg-secondary">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ordenes as $c)
+                @foreach ($ordenes as $o)
                 <tr>
-                    <td>{{ $c->especial }}</td>
-                    <td>{{ $c->fecha }}</td>
+                    <td>{{ $o->especial }}</td>
+                    <td>{{ $o->fecha }}</td>
+                    <td>{{ $o->jor_descripcion }}</td>
+                    <td>{{ $meses[$o->mes] }}</td>
+                    <td>{{ $o->anl_descripcion }}</td>
+                    <td>
+                        <!-- Botón para ver -->
+                        <a href="#" class="btn btn-info btn-sm mr-1">
+                            <i class="fas fa-eye"></i> Ver
+                        </a>
+                        <!-- Botón para editar -->
+                        <a href="#" class="btn btn-primary btn-sm mr-1">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <!-- Botón para eliminar -->
+                        <a href="#" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -78,54 +98,6 @@
     </div>
 </div>
 
+
 </div>
-
-    
-
-<!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Validación del formulario del lado del cliente
-        $('#orderForm').validate({
-            rules: {
-                anl_id: 'required',
-                jor_id: 'required',
-                mes: 'required'
-            },
-            messages: {
-                anl_id: 'Por favor, selecciona un periodo.',
-                jor_id: 'Por favor, selecciona una jornada.',
-                mes: 'Por favor, selecciona un mes.'
-            },
-            errorElement: 'div',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid').removeClass('is-valid');
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).removeClass('is-invalid').addClass('is-valid');
-            }
-        });
-
-        // Limpiar estilos de validación al recargar la página
-        $(window).on('load', function () {
-            $('.form-control').removeClass('is-valid');
-        });
-    });
-</script> -->
-
-<style>
-    .btn-animate {
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-animate:hover {
-        background-color: #ffcc00;
-    }
-</style>
 @endsection
