@@ -35,8 +35,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/genera_ordenes',[GenerarOrdenesController::class,'index'])->name('genera_ordenes.index');  //
     Route::post('/generarOrdenes',[GenerarOrdenesController::class,'generarOrdenes'])->name('generaOrdenes');  //
-
-    
+    Route::get('/ver_ordenes/{especial}', [GenerarOrdenesController::class, 'verOrdenes'])->name('ver_ordenes');
+    Route::post('/eliminar_orden',[GenerarOrdenesController::class,'eliminarOrden'])->name('eliminarOrden');
 });
 
 require __DIR__ . '/auth.php';

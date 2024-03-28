@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+    $(document).on("click", ".btn_delete", function(){
+        if (confirm("Seguro desea eliminar?")) {
+            const secuencial = $(this).attr('secuencial');
+            $('#secuencial').val(secuencial);
+            $('#frmEliminar').submit();
+        }
+    });
+</script>
+
+<form action="{{route('eliminarOrden')}}" method="POST" id="frmEliminar">
+    @csrf
+    <input type="text" name="secuencial" id="secuencial" value="0" hidden/>
+</form>
+
 <div class="container">
     <h1 class="text-center mb-4">VISTA GENERA ORDENES</h1>
 
@@ -58,7 +73,7 @@
     <div class="container mt-4">
     <h4>Ordenes Generadas</h4>
     <div class="table-responsive">
-        <table class="table table-bordered table-striped table-dark">
+        <table class="table table-bordered table-striped table-dark table-sm">
             <thead class="thead-dark">
                 <tr>
                     <th class="bg-secondary">Secuencial</th>
@@ -79,15 +94,11 @@
                     <td>{{ $o->anl_descripcion }}</td>
                     <td>
                         <!-- Botón para ver -->
-                        <a href="#" class="btn btn-info btn-sm mr-1">
-                            <i class="fas fa-eye"></i> Ver
-                        </a>
-                        <!-- Botón para editar -->
-                        <a href="#" class="btn btn-primary btn-sm mr-1">
-                            <i class="fas fa-edit"></i> Editar
+                        <a href="{{ route('ver_ordenes', ['especial' => $o->especial]) }}" class="btn btn-info btn-sm mr-1">
+                        <i class="fas fa-eye"></i> Ver
                         </a>
                         <!-- Botón para eliminar -->
-                        <a href="#" class="btn btn-danger btn-sm">
+                        <a class="btn btn-danger btn-sm btn_delete" secuencial="{{$o->especial}}">
                             <i class="fas fa-trash"></i> Eliminar
                         </a>
                     </td>
@@ -97,7 +108,5 @@
         </table>
     </div>
 </div>
-
-
 </div>
 @endsection
