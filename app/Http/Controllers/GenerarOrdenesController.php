@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\GeneraOrdenes;
 use Auth;
+use App\Exports\OrdenesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GenerarOrdenesController extends Controller
 {
@@ -144,6 +146,7 @@ class GenerarOrdenesController extends Controller
         if (empty($validar)){
         $secuenciales=DB::selectone("SELECT max(especial) AS secuencial FROM ordenes_generadas");
         $sec=$secuenciales->secuencial+1;
+        
         $estudiantes=DB::select("SELECT *, m.id AS mat_id FROM matriculas m 
                                  JOIN estudiantes e ON m.est_id=e.id
                                  JOIN jornadas j ON m.jor_id=j.id
@@ -171,9 +174,11 @@ class GenerarOrdenesController extends Controller
         $inpu['numero_documento']=NULL; // NUMERO DEL DOCUMENTO QUE PAGO EL USUARIO (CUANDO YA PAGUE)
         GeneraOrdenes::create($inpu);
         }
-        return Redirect(route('genera_ordenes.index'));
+            session()->flash('success', 'ORDEN GENERADA EXISTOSAMENTE');
+            return Redirect(route('genera_ordenes.index'));
         }else{
-        dd('YA EXISTE UNA ORDEN GENERADA CON ESTOS DATOS');
+            session()->flash('error', 'YA EXISTE UNA ORDEN GENERADA CON ESTOS DATOS');
+            return redirect()->route('genera_ordenes.index');
         }
 
         
@@ -185,17 +190,47 @@ class GenerarOrdenesController extends Controller
 
     public function verOrdenes($especial)
     {
-    $ordenes = DB::select("SELECT * FROM ordenes_generadas WHERE especial = :especial", ['especial' => $especial]);
-    $meses = $this->meses(); // Obtener los meses
-    return view('generarOrdenes.ordenes', compact('ordenes', 'meses')); // Pasar $meses a la vista
-    }
+        $ordenes = DB::select("SELECT o.*, m.*, e.est_cedula, e.est_apellidos, e.est_nombres, j.jor_descripcion
+                               FROM ordenes_generadas o
+                               JOIN matriculas m ON m.id = o.mat_id
+                               JOIN estudiantes e ON e.id = m.est_id
+                               JOIN jornadas j ON j.id = m.jor_id
+                               WHERE o.especial = :especial
+                               ORDER BY e.est_apellidos", ['especial' => $especial]);
+        $meses = $this->meses(); // Obtener los meses
+        return view('generarOrdenes.ordenes', compact('ordenes', 'meses')); // Pasar $meses a la vista
+    }    
+   
 
     public function eliminarOrden(Request $rq){
         $dt=$rq->all();
         $secuencial=$dt['secuencial'];
         $ordenes=GeneraOrdenes::where('especial',$secuencial)->delete();
+        session()->flash('success', 'Orden eliminada exitosamente');
         return Redirect(route('genera_ordenes.index'));
     }
 
+    // public function buscar(Request $rq) {
+        
+    //     // Realiza la consulta utilizando el valor de $dato
+    //     $dato=($rq->buscar);
+    //     $estudiantes = DB::select("SELECT * 
+    //                             FROM ordenes_generadas o
+    //                             JOIN matriculas m ON m.id = o.mat_id
+    //                             JOIN estudiantes e ON e.id = m.est_id
+    //                             JOIN especialidades esp ON esp.id = m.esp_id
+    //                             JOIN cursos cur ON cur.id = m.cur_id
+    //                             WHERE UPPER(e.est_nombres) LIKE UPPER('%$dato%') OR UPPER(e.est_apellidos) LIKE UPPER('%$dato%') AND secuencial=secuencial;
+    //     ;
+    //     ");
+    
+    //     // Pasa los resultados de la consulta y $dato a la vista
+    //     return view('ordenes.buscar')
+    //         ->with('estudiantes', $estudiantes);
+    // }
 
+    public function exportarExcel()
+    {
+    return Excel::download(new OrdenesExport, 'ordenes.xlsx');
+    }
 }

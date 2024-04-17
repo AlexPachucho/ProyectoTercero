@@ -37,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/generarOrdenes',[GenerarOrdenesController::class,'generarOrdenes'])->name('generaOrdenes');  //
     Route::get('/ver_ordenes/{especial}', [GenerarOrdenesController::class, 'verOrdenes'])->name('ver_ordenes');
     Route::post('/eliminar_orden',[GenerarOrdenesController::class,'eliminarOrden'])->name('eliminarOrden');
+    Route::POST('/buscar', [OrdenesController::class, 'buscar'])->name('buscar');
+
+    // Ruta para exportar las órdenes a un archivo Excel
+    Route::get('/exportar_ordenes_excel', [GenerarOrdenesController::class, 'exportarExcel'])->name('exportar_ordenes_excel');
 });
 
 require __DIR__ . '/auth.php';

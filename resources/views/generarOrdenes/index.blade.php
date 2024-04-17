@@ -2,6 +2,13 @@
 
 @section('content')
 <script>
+    $(document).ready(function() {
+        // Función para ocultar la alerta después de 2 segundos
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 1500);
+    });
+
     $(document).on("click", ".btn_delete", function(){
         if (confirm("Seguro desea eliminar?")) {
             const secuencial = $(this).attr('secuencial');
@@ -18,6 +25,17 @@
 
 <div class="container">
     <h1 class="text-center mb-4">VISTA GENERA ORDENES</h1>
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif  
 
     <form action="{{ route('generaOrdenes') }}" method="POST" id="orderForm">
         @csrf
@@ -93,14 +111,20 @@
                     <td>{{ $meses[$o->mes] }}</td>
                     <td>{{ $o->anl_descripcion }}</td>
                     <td>
-                        <!-- Botón para ver -->
-                        <a href="{{ route('ver_ordenes', ['especial' => $o->especial]) }}" class="btn btn-info btn-sm mr-1">
+                    <!-- Botón para ver -->
+                    <a href="{{ route('ver_ordenes', ['especial' => $o->especial]) }}" class="btn btn-info btn-sm mr-1">
                         <i class="fas fa-eye"></i> Ver
-                        </a>
-                        <!-- Botón para eliminar -->
-                        <a class="btn btn-danger btn-sm btn_delete" secuencial="{{$o->especial}}">
-                            <i class="fas fa-trash"></i> Eliminar
-                        </a>
+                    </a>                                                                                           
+                    <!-- Botón para eliminar -->
+                    <a class="btn btn-danger btn-sm btn_delete mr-1" secuencial="{{$o->especial}}">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </a>
+                    <!-- Botón para exportar a excel -->
+                    <form action="{{ route('exportar_ordenes_excel') }}" method="GET" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-sm mr-1">
+                            <i class="fas fa-file-excel"></i> XLS
+                        </button>
+                    </form>
                     </td>
                 </tr>
                 @endforeach
