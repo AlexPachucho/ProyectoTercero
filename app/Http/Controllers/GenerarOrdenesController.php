@@ -229,8 +229,8 @@ class GenerarOrdenesController extends Controller
     //         ->with('estudiantes', $estudiantes);
     // }
 
-    public function exportarExcel()
+    public function exportarOrdenesExcel($secuencial)
     {
-    return Excel::download(new OrdenesExport, 'ordenes.xlsx');
+    return Excel::download(new OrdenesExport($secuencial), 'ordenes_secuencial_'.$secuencial.'.xlsx');
     }
 }

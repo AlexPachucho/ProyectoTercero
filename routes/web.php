@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::POST('/buscar', [OrdenesController::class, 'buscar'])->name('buscar');
 
     // Ruta para exportar las órdenes a un archivo Excel
-    Route::get('/exportar_ordenes_excel', [GenerarOrdenesController::class, 'exportarExcel'])->name('exportar_ordenes_excel');
+    Route::get('/exportar_ordenes_excel/{secuencial}', [GenerarOrdenesController::class, 'exportarOrdenesExcel'])->name('exportar_ordenes_excel');
 });
 
 require __DIR__ . '/auth.php';

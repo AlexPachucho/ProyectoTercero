@@ -120,11 +120,9 @@
                         <i class="fas fa-trash"></i> Eliminar
                     </a>
                     <!-- Botón para exportar a excel -->
-                    <form action="{{ route('exportar_ordenes_excel') }}" method="GET" class="d-inline">
-                        <button type="submit" class="btn btn-success btn-sm mr-1">
-                            <i class="fas fa-file-excel"></i> XLS
-                        </button>
-                    </form>
+                    <a href="{{ route('exportar_ordenes_excel', ['secuencial' => $o->especial]) }}" class="btn btn-success btn-sm mr-1">
+                        <i class="fas fa-file-excel"></i> XLS
+                    </a>
                     </td>
                 </tr>
                 @endforeach
